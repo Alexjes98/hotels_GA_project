@@ -14,8 +14,11 @@
 import random
 import numpy as np
 from deap import base, creator, tools, algorithms
+import math
+import copy
 
 random.seed(42)
+
 def create_individual(hotels_number, required_hotels):
     individual = [0] * hotels_number
     for i in range(required_hotels):
@@ -26,9 +29,9 @@ def create_individual(hotels_number, required_hotels):
     return individual
 
 
-def objective_func(individual, required_hotels, distances, hotels):
+def objective_func(individual, required_hotels, hotels):
     count = 0
-    index_aux = []
+    distance_aux = []
     score = 0
     distance = 0
     cost = 0
@@ -36,28 +39,16 @@ def objective_func(individual, required_hotels, distances, hotels):
         if count == required_hotels:
             break
         if hotel == 1:
-            index_aux.append(i)
+            aux = hotels[i]["geolocation"].split(",")
+            distance_aux.append({float(aux[0]), float(aux[1])})
             count += 1
             cost += float(hotels[i]["price"])
             score += (
                 float(hotels[i]["global_score"].replace(",", "."))
-                * hotels[i]["hotel_stars"]
+                * int(hotels[i]["hotel_stars"])
             )
-    distance = calculate_distance(index_aux, distances)
-    return score, cost, distance
-
-
-def calculate_distance(hotels_index, distances):
-    distance = 0
-    for i in range(len(hotels_index)):
-        for j in range(len(hotels_index)):
-            if i == j:
-                continue
-            distance += float(
-                distances[hotels_index[i]][hotels_index[j]].replace(",", ".")
-            )
-    return distance
-
+    distance = distance_between_points(distance_aux)
+    return score, cost, distance   
 
 def cxTwoPointWithConstraint(ind1, ind2, required_hotels, toolbox):
     child1, child2 = tools.cxTwoPoint(ind1, ind2)
@@ -80,8 +71,50 @@ def mutFlipBitWithConstraint(individual, indpb, required_hotels, toolbox):
     return (individual,)
 
 
-def generateRecommendation(hotels, distances, required_hotels):
+def filterHotels(hotels, user_preferences):
+    for hotel in hotels:
+        score_reduction = 0.0
+        if not hotel["sustainable_trip"] and user_preferences["sustainable_trip"] == True:
+            score_reduction += 1.5
+        if not hotel["accept_pay_cards"] and user_preferences["accept_pay_cards"] == True:
+            score_reduction += 1.5
+        if not hotel["accept_cash"] and user_preferences["accept_cash"] == True:
+            score_reduction += 1.5
+        if not hotel["security_cameras"] and user_preferences["security_cameras"] == True:
+            score_reduction += 1.5
+        if not hotel["includes_breakfast"] and user_preferences["includes_breakfast"] == True:
+            score_reduction += 1.5
+        if not hotel["english"] and user_preferences["english"] == True:
+            score_reduction += 1.5
+        hotel["global_score"] = str(float(hotel["global_score"].replace(",", ".")) - score_reduction)
+    return hotels
+
+
+def distance_between_points(points):
+    points = [[math.radians(lat), math.radians(lon)] for lat, lon in points]
+    distances = []
+    for i in range(len(points)):
+        for j in range(i + 1, len(points)):
+            lat1, lon1 = points[i]
+            lat2, lon2 = points[j]
+            dlat = lat2 - lat1
+            dlon = lon2 - lon1
+            a = (
+                math.sin(dlat / 2) ** 2
+                + math.cos(lat1) * math.cos(lat2) * math.sin(dlon / 2) ** 2
+            )
+            c = 2 * math.asin(math.sqrt(a))
+            r = 6371
+            distance = c * r
+            distances.append(distance)
+    return sum(distances)
+
+
+def generateRecommendation(hotels, required_hotels, user_preferences):
     hotels_number = len(hotels)
+    aux_hotels = copy.deepcopy(hotels)
+    if user_preferences:
+        hotels = filterHotels(hotels, user_preferences)
     creator.create("FitnessMulti", base.Fitness, weights=(1.0, -1.0, -1.0))
     creator.create("Individual", list, fitness=creator.FitnessMulti)
 
@@ -109,7 +142,6 @@ def generateRecommendation(hotels, distances, required_hotels):
         "evaluate",
         objective_func,
         required_hotels=required_hotels,
-        distances=distances,
         hotels=hotels,
     )
 
@@ -137,6 +169,6 @@ def generateRecommendation(hotels, distances, required_hotels):
     ind = pareto[0]
     for i, selection in enumerate(ind):
         if selection == 1:
-            hotels_selection.append(hotels[i])
+            hotels_selection.append(aux_hotels[i])
 
     return pop, logbook, pareto, hotels_selection

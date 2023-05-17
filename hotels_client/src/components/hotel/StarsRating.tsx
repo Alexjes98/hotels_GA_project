@@ -14,12 +14,12 @@ const StarsRating = (props: Props) => {
             {stars.map((star, index) => {
                 if (index < props.rating) {
                     return (
-                        <Grid item>
+                        <Grid item key={index}>
                             <StarIcon key={`${star} + ${index}`}></StarIcon>
                         </Grid>
                     )
                 }
-                return (<Grid item><StarBorderIcon key={`${star} + ${index}`}></StarBorderIcon></Grid>)
+                return (<Grid item key={index}><StarBorderIcon key={`${star} + ${index}`}></StarBorderIcon></Grid>)
             })}
 
         </Grid>

@@ -16,7 +16,6 @@ const ZonesPage = () => {
   const dispatch = useDispatch();
 
   const handleClick = (zone: string ) => {
-    console.log(zone)
     dispatch(setSelectedZone(zone));
   };
 

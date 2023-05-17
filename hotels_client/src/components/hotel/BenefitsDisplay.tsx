@@ -1,36 +1,41 @@
 
 import { CreditCard, FreeBreakfast, Language, Recycling, Security, Payments } from '@mui/icons-material';
-import { Grid } from '@mui/material';
+import { Grid, IconButton } from '@mui/material';
 
 type Props = {
     attributes: any
 }
 
 const BenefitsDisplay = (props: Props) => {
+    // How to display the name of the preference when hover (optional)
 
     const icons = [
         {
-            icon: <CreditCard />,
+            icon: <IconButton sx={{ "&:hover": { color: "blue" } }} onClick={() => { }}>
+                <CreditCard />
+            </IconButton>,
             active: props.attributes.creditCard,
         },
         {
-            icon: <Language />,
+            icon: <IconButton onClick={() => { }}>
+                <Language />
+            </IconButton>,
             active: props.attributes.english,
         },
         {
-            icon: <Recycling />,
+            icon: <IconButton> <Recycling /></IconButton>,
             active: props.attributes.sustainable_trip,
         },
         {
-            icon: <FreeBreakfast />,
+            icon: <IconButton><FreeBreakfast /></IconButton>,
             active: props.attributes.includes_breakfast,
         },
         {
-            icon: <Security />,
+            icon: <IconButton><Security /></IconButton>,
             active: props.attributes.security_cameras,
         },
         {
-            icon: <Payments />,
+            icon: <IconButton><Payments /></IconButton>,
             active: props.attributes.accept_cash,
         },
     ];

@@ -1,4 +1,5 @@
-import { Button, useMediaQuery, Card, CardActionArea, CardActions, CardContent, CardMedia, Divider, FormLabel, Grid, Stack, TextField, useTheme } from '@mui/material'
+import { Button, useMediaQuery, Card, CardActionArea, CardActions, CardContent, CardMedia, Divider, FormLabel, Grid, Stack, TextField, useTheme, Checkbox } from '@mui/material'
+import { CreditCard, FreeBreakfast, Language, Recycling, Security, Payments } from '@mui/icons-material';
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 
@@ -21,18 +22,28 @@ const RecommendationFormPage = () => {
 
     const [formError, setFormError] = useState(false)
     const [numRecommendations, setNumRecommendations] = useState(0)
+    const [selectedBenefits, setSelectedBenefits] = useState({
+        accept_pay_cards: false,
+        includes_breakfast: false,
+        english: false,
+        sustainable_trip: false,
+        security_cameras: false,
+        accept_cash: false,
+    })
+
     const [hotels, setHotels] = useState<any[]>([])
+
     const [loading, setLoading] = useState(false)
     const [dataRetrieved, setDataRetrieved] = useState(false)
 
     const selectedZoneName = useSelector((state: RootState) => state.selectedZone.selectedZoneName);
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
+        e.preventDefault()        
         if (invalidNumber(numRecommendations.toString())) return setFormError(true)
         setLoading(true)
         setDataRetrieved(false)
-        getRecommendation(numRecommendations).then(res => {
+        getRecommendation({...selectedBenefits,'num_recommendations': numRecommendations}).then(res => {
             setLoading(false)
             setHotels(sortHotels(res.data.hotels))
             setDataRetrieved(true)
@@ -43,13 +54,15 @@ const RecommendationFormPage = () => {
         )
     }
 
+    const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        e.preventDefault()
+        setSelectedBenefits({ ...selectedBenefits, [e.target.name]: e.target.checked })
+    }
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault()
-        if (invalidNumber(e.target.value)) {
-            return setFormError(true)
-        }
+        if (invalidNumber(e.target.value)) return setFormError(true)
         setFormError(false)
-        console.log(numRecommendations)
         return setNumRecommendations(parseInt(e.target.value))
     }
 
@@ -85,6 +98,30 @@ const RecommendationFormPage = () => {
                             Send
                         </Button>
                     </Stack>
+                    <Stack spacing={2} sx={{}}>
+                        <h3>Preferences</h3>
+                        <Divider sx={{ padding: '5px 0px' }} />
+                        <Grid container justifyContent="space-between">
+                            <Grid item>
+                                <Checkbox onChange={handleCheckboxChange} name='accept_pay_cards' icon={<CreditCard />} checkedIcon={<CreditCard />} />
+                            </Grid>
+                            <Grid item >
+                                <Checkbox onChange={handleCheckboxChange} name='includes_breakfast' icon={<FreeBreakfast />} checkedIcon={<FreeBreakfast />} />
+                            </Grid>
+                            <Grid item>
+                                <Checkbox onChange={handleCheckboxChange} name='english' icon={<Language />} checkedIcon={<Language />} />
+                            </Grid>
+                            <Grid item >
+                                <Checkbox onChange={handleCheckboxChange} name='sustainable_trip' icon={<Recycling />} checkedIcon={<Recycling />} />
+                            </Grid>
+                            <Grid item >
+                                <Checkbox onChange={handleCheckboxChange} name='security_cameras' icon={<Security />} checkedIcon={<Security />} />
+                            </Grid>
+                            <Grid item>
+                                <Checkbox onChange={handleCheckboxChange} name='accept_cash' icon={<Payments />} checkedIcon={<Payments />} />
+                            </Grid>
+                        </Grid>
+                    </Stack>
                 </Card>
             </form>
             <LoadingSpinner show={loading} ></LoadingSpinner>
@@ -116,9 +153,6 @@ const RecommendationFormPage = () => {
                                         <h3>Average Price: {hotel.price}$</h3>
                                         <h4>Average Category: {hotel.category}</h4>
                                         <h4>Service: {hotel.service_type}</h4>
-                                        {/* <Benefits /> */}
-
-
                                     </CardContent>
                                 </CardActionArea>
                                 <CardActions>

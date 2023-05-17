@@ -7,9 +7,10 @@ import asyncio
 
 from .scripts import hotels_algorithm
 
-import firebase, json
+import firebase
 from dotenv import load_dotenv
 import os
+import traceback
 
 load_dotenv()
 
@@ -26,23 +27,31 @@ firebaseConfig = {
 def test(request):
     return HttpResponse("Hello, world. You're at the polls index.")
 # Create your views here.
-def get_recommendation(request, num_recommendations):
-    try:
-        print(firebaseConfig,"CONFIG")
-        num_recommendations = num_recommendations if num_recommendations is not None else 5
+
+def generate_data(request):
+
+    return HttpResponse("Data generated")
+def get_recommendation(request):    
+    num_recommendations = request.GET.get('num_recommendations') if request.GET.get('num_recommendations') is not None else 5
+    sustainable_trip = request.GET.get('sustainable_trip') if request.GET.get('sustainable_trip') is not None else False
+    accept_pay_cards = request.GET.get('accept_pay_cards') if request.GET.get('accept_pay_cards') is not None else False
+    accept_cash = request.GET.get('accept_cash') if request.GET.get('accept_cash') is not None else False
+    security_cameras = request.GET.get('security_cameras') if request.GET.get('security_cameras') is not None else False
+    includes_breakfast = request.GET.get('includes_breakfast') if request.GET.get('includes_breakfast') is not None else False
+    english = request.GET.get('english') if request.GET.get('english') is not None else False
+    try:        
         num_recommendations = int(num_recommendations)
         app = firebase.initialize_app(firebaseConfig)
         db = app.firestore().collection("hotels")
         document = db.document("zone_cartagena")
         zone = document.get()
         hotels = zone['hotels']
-        distances = zone['distances']
-        distances = json.loads(distances)
-        pop, logbook, pareto, hotel_selection = hotels_algorithm.generateRecommendation(hotels,distances,num_recommendations)
-    except:
-        
+        user_preferences = {"sustainable_trip": sustainable_trip,"accept_pay_cards": accept_pay_cards,"accept_cash": accept_cash,"security_cameras": security_cameras,"includes_breakfast": includes_breakfast,"english": english}
+        pop, logbook, pareto, hotel_selection = hotels_algorithm.generateRecommendation(hotels,num_recommendations,user_preferences)
+    except Exception:
+        traceback.print_exc() 
         return JsonResponse({"hotels": []})
-    return JsonResponse({"hotels": hotel_selection})
+    return JsonResponse({"hotels": hotel_selection })
 
 class HotelView(viewsets.ModelViewSet):
     serializer_class = HotelSerializer

@@ -22,5 +22,5 @@ from hotels import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('state/',views.test),
-    path('recommendation/<int:num_recommendations>/',views.get_recommendation),
+    path('recommendation/',views.get_recommendation),
 ]
