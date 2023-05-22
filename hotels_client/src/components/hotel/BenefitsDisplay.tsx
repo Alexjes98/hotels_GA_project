@@ -1,9 +1,10 @@
 
 import { CreditCard, FreeBreakfast, Language, Recycling, Security, Payments } from '@mui/icons-material';
 import { Grid, IconButton } from '@mui/material';
+import HotelBenefitsDTO from '../../dto/hotels/HotelBenefitsDTO';
 
 type Props = {
-    attributes: any
+    attributes: HotelBenefitsDTO
 }
 
 const BenefitsDisplay = (props: Props) => {

@@ -15,6 +15,8 @@ import { RootState } from '../../redux/store'
 
 import { getRecommendation } from '../../api/hotels.api'
 
+import HotelDTO from '../../dto/hotels/HotelDTO';
+
 const RecommendationFormPage = () => {
 
     const theme = useTheme();
@@ -31,7 +33,7 @@ const RecommendationFormPage = () => {
         accept_cash: false,
     })
 
-    const [hotels, setHotels] = useState<any[]>([])
+    const [hotels, setHotels] = useState<HotelDTO[]>([])
 
     const [loading, setLoading] = useState(false)
     const [dataRetrieved, setDataRetrieved] = useState(false)
@@ -65,8 +67,8 @@ const RecommendationFormPage = () => {
         setFormError(false)
         return setNumRecommendations(parseInt(e.target.value))
     }
-
-    const sortHotels = (hotels: any[]) => {
+    
+    const sortHotels = (hotels: HotelDTO[]) => {
         return hotels.sort((a, b) => {
             if (a.global_score > b.global_score) return -1
             if (a.global_score < b.global_score) return 1

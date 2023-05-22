@@ -3,16 +3,17 @@ import StarBorderIcon from '@mui/icons-material/StarBorder';
 import { Grid } from '@mui/material';
 
 type Props = {
-    rating: number
+    rating: string
 }
 
 const StarsRating = (props: Props) => {
     const stars = Array(5).fill(0)
+    const rating = isNaN(parseInt(props.rating)) ? 0 : parseInt(props.rating)
     return (
 
         <Grid container justifyContent='end' sx={{padding: '9px 0'}}>
             {stars.map((star, index) => {
-                if (index < props.rating) {
+                if (index < rating) {
                     return (
                         <Grid item key={index}>
                             <StarIcon key={`${star} + ${index}`}></StarIcon>

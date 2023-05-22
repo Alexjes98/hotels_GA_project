@@ -1,4 +1,6 @@
-export const generateHotelBenefits = (hotel: any) => {
+import HotelDTO from "../dto/hotels/HotelDTO"
+
+export const generateHotelBenefits = (hotel: HotelDTO) => {
     const benefits = {
         creditCard: hotel.accept_pay_cards,
         english: hotel.english,

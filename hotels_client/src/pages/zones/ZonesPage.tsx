@@ -6,8 +6,9 @@ import { useDispatch} from 'react-redux';
 import { setSelectedZone } from '../../redux/features/selectedZone';
 
 import assets from '../../assets'
+import ZoneImgDTO from '../../dto/zones/ZoneDTO';
 const ZonesPage = () => {
-  const itemData: any[] = assets.images.zones
+  const itemData: ZoneImgDTO[] = assets.images.zones
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('xl'));
 
@@ -25,7 +26,7 @@ const ZonesPage = () => {
       <ImageList sx={{ width: 'auto' }} cols={cols} rowHeight={300}>
         {itemData.map((item,index) => (
           <Link key={index} to={'/recommendation/' + item.link}  onClick={() => handleClick(item.name)} >
-            <ImageListItem key={item.img}>
+            <ImageListItem key={item.link+item.name}>
               <Image src={item.src}></Image>
               <ImageListItemBar title={item.name ?? ''}></ImageListItemBar>
             </ImageListItem>

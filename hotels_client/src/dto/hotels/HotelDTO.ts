@@ -1,0 +1,26 @@
+
+export default interface HotelDTO {
+    accept_cash: boolean,
+    accept_pay_cards: boolean,
+    category: string,
+    cleanliness_score: string,
+    confort_score: string,
+    distance_to_beach: string,
+    distance_to_historical_center: string,
+    distance_to_port_and_tourism_polce: string,
+    english: boolean,
+    free_wifi_score: string,
+    geolocation: string,
+    global_score: string,
+    hotel_stars: string,
+    includes_breakfast: boolean,
+    instalaitions_score: string,
+    location_score: string,
+    name: string,
+    personal_score: string,
+    price: string,
+    price_quality_score: string,
+    security_cameras: boolean,
+    service_type: string,
+    sustainable_trip: boolean
+}
