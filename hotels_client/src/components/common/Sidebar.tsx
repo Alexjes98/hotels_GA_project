@@ -1,5 +1,5 @@
 
-import { List, Drawer, Toolbar, Stack, Avatar, ListItemButton, ListItemIcon } from '@mui/material'
+import { List, Drawer, Toolbar, Stack, Avatar} from '@mui/material'
 
 import sizeConfigs from '../../configs/sizeConfigs'
 import assets from '../../assets'
@@ -8,9 +8,7 @@ import appRoutes from '../../routes/appRoutes'
 import SidebarItem from './SidebarItem'
 import { Link } from 'react-router-dom'
 
-type Props = {}
-
-const Sidebar = (props: Props) => {
+const Sidebar = () => {
   return (
     <Drawer
       variant="permanent"
