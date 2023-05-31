@@ -1,6 +1,6 @@
 import { Button, useMediaQuery, Card, CardActionArea, CardActions, CardContent, CardMedia, Divider, FormLabel, Grid, Stack, TextField, useTheme, Checkbox } from '@mui/material'
 import { CreditCard, FreeBreakfast, Language, Recycling, Security, Payments } from '@mui/icons-material';
-import React, { useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import { useSelector } from 'react-redux'
 
 import { invalidNumber } from '../../utils/validator'
@@ -16,8 +16,11 @@ import { RootState } from '../../redux/store'
 import { getRecommendation } from '../../api/hotels.api'
 
 import HotelDTO from '../../dto/hotels/HotelDTO';
+import { useParams } from 'react-router-dom';
 
 const RecommendationFormPage = () => {
+
+    const zone_id = useParams().zoneId
 
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
@@ -45,7 +48,8 @@ const RecommendationFormPage = () => {
         if (invalidNumber(numRecommendations.toString())) return setFormError(true)
         setLoading(true)
         setDataRetrieved(false)
-        getRecommendation({...selectedBenefits,'num_recommendations': numRecommendations}).then(res => {
+        getRecommendation({...selectedBenefits,'num_recommendations': numRecommendations,'zone_id': zone_id}).then(res => {
+            if(res.status !== 200) return console.log(res)
             setLoading(false)
             setHotels(sortHotels(res.data.hotels))
             setDataRetrieved(true)
@@ -77,7 +81,7 @@ const RecommendationFormPage = () => {
     }
 
     return (
-        <div>
+        <Fragment>
             <h1>Recomendación de Hoteles en {selectedZoneName}</h1>
             <h3>Select your preferences</h3>
             <form action="GET" onSubmit={handleSubmit}>
@@ -127,7 +131,7 @@ const RecommendationFormPage = () => {
                 </Card>
             </form>
             <LoadingSpinner show={loading} ></LoadingSpinner>
-            {dataRetrieved && <div>
+            {dataRetrieved && <Fragment>
                 <Divider sx={{ padding: '5px 0px' }} />
                 <h3>Best options in {selectedZoneName}</h3>
                 <Grid container rowSpacing={5} columnSpacing={5} columns={isSmallScreen ? 1 : 12} alignContent='center'>
@@ -167,9 +171,9 @@ const RecommendationFormPage = () => {
                         </Grid>
                     ))}
                 </Grid>
-            </div>
+            </Fragment>
             }
-        </div>
+        </Fragment>
     )
 }
 

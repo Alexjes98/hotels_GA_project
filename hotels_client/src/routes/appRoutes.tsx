@@ -6,6 +6,7 @@ import ZonesPage from "../pages/zones/ZonesPage";
 import MapIcon from '@mui/icons-material/Map';
 import ZoneInfoPage from "../pages/zones/ZoneInfoPage";
 import RecommendationFormPage from "../pages/recommendation_form/RecommendationFormPage";
+import AdminDashboard from "../pages/admin_views/AdminDashboardPage";
 
 const appRoutes: RouteType[] = [
   {
@@ -20,19 +21,19 @@ const appRoutes: RouteType[] = [
     state: "recommendation",
   },
   {
+    path: "/admin_dashboard/",
+    element: <AdminDashboard />,
+    state: "dashboard",
+  },
+  {
     path: "/zones",
-    element: <ZonesPage />,
+    element: <ZonesPage destiny="recommendation" />,
     state: "zones",
     sidebarProps: {
       displayText: "Available Zones",
       icon: <MapIcon />
     },
     child: [
-      {
-        index: true,
-        element: <ZoneInfoPage />,
-        state: "zones.index"
-      },
       {
         path: "/zones/:zoneId",
         element: <ZoneInfoPage />,
@@ -43,6 +44,20 @@ const appRoutes: RouteType[] = [
       },
     ]
   },
+  {
+    path: "/admin_zones",
+    element: <ZonesPage destiny="selected_zone" />,
+    state: "admin_zones",
+    sidebarProps: {
+      displayText: "Available Zones",
+      icon: <MapIcon />
+    },
+  },
+  {
+    path: "/selected_zone/:zoneId",
+    element: <ZoneInfoPage />,
+    state: "selected_zone"
+  }
 ];
 
 export default appRoutes;

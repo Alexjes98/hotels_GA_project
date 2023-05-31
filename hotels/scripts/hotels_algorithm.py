@@ -119,7 +119,7 @@ def generateRecommendation(hotels, required_hotels, user_preferences):
     creator.create("Individual", list, fitness=creator.FitnessMulti)
 
     toolbox = base.Toolbox()
-
+    
     toolbox.register("attr", create_individual, hotels_number, required_hotels)
     toolbox.register("individual", tools.initIterate, creator.Individual, toolbox.attr)
     toolbox.register("population", tools.initRepeat, list, toolbox.individual)

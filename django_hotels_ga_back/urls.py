@@ -23,4 +23,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('state/',views.test),
     path('recommendation/',views.get_recommendation),
+    path('zone/',views.get_zone_content),
 ]

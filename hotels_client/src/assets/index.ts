@@ -25,13 +25,13 @@ const assets = {
         logo: Logo,
         home: Home,
         zones: [
-            {src: Zone1,link: '1', name: 'Cartagena'},
-            {src: Zone2,link: '2', name: 'Santa Marta'},
-            {src: Zone3,link: '3', name: 'Bogotá'},
-            {src: Zone4,link: '4', name: 'Medellín'},
-            {src: Zone5,link: '5', name: 'Bucaramanga'},
-            {src: Zone6,link: '6', name: 'Manizales'},
-            {src: Zone7,link: '7', name: 'Barranquilla'}
+            {src: Zone1,link: 'zone_cartagena', name: 'Cartagena'},
+            {src: Zone2,link: 'zone_santamarta', name: 'Santa Marta'},
+            {src: Zone3,link: 'zone_bogota', name: 'Bogotá'},
+            {src: Zone4,link: 'zone_medellin', name: 'Medellín'},
+            {src: Zone5,link: 'zone_bucaramanga', name: 'Bucaramanga'},
+            {src: Zone6,link: 'zone_manizales', name: 'Manizales'},
+            {src: Zone7,link: 'zone_barranquilla', name: 'Barranquilla'}
         ],
         hotels: [
             {src: Hotel1,link: '1', name: 'Hotel1'},

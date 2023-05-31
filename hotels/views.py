@@ -27,11 +27,24 @@ firebaseConfig = {
 def test(request):
     return HttpResponse("Hello, world. You're at the polls index.")
 # Create your views here.
+def get_zone_content(request):
+    zone_id = request.GET.get('zone_id') if request.GET.get('zone_id') is not None else "zone_cartagena"
+    try:
+        app = firebase.initialize_app(firebaseConfig)
+        db = app.firestore().collection("hotels")
+        document = db.document(zone_id)
+        zone = document.get()
+        hotels = zone['hotels']
+    except Exception:
+        traceback.print_exc() 
+        return JsonResponse({"hotels": []})
+    return JsonResponse({"hotels": hotels })
 
 def generate_data(request):
-
     return HttpResponse("Data generated")
-def get_recommendation(request):    
+
+def get_recommendation(request):
+    zone_id = request.GET.get('zone_id') if request.GET.get('zone_id') is not None else "zone_cartagena"    
     num_recommendations = request.GET.get('num_recommendations') if request.GET.get('num_recommendations') is not None else 5
     sustainable_trip = request.GET.get('sustainable_trip') if request.GET.get('sustainable_trip') is not None else False
     accept_pay_cards = request.GET.get('accept_pay_cards') if request.GET.get('accept_pay_cards') is not None else False
@@ -43,7 +56,7 @@ def get_recommendation(request):
         num_recommendations = int(num_recommendations)
         app = firebase.initialize_app(firebaseConfig)
         db = app.firestore().collection("hotels")
-        document = db.document("zone_cartagena")
+        document = db.document(zone_id)
         zone = document.get()
         hotels = zone['hotels']
         user_preferences = {"sustainable_trip": sustainable_trip,"accept_pay_cards": accept_pay_cards,"accept_cash": accept_cash,"security_cameras": security_cameras,"includes_breakfast": includes_breakfast,"english": english}

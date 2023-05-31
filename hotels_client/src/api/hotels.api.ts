@@ -6,3 +6,6 @@ const hotelsApi = axios.create({
 export const getRecommendation = (params: object) => {
     return hotelsApi.get(`recommendation/`,{params: params});
 }
+export const getZoneContent = (params: object) => {
+    return hotelsApi.get(`zone/`,{params: params});
+}

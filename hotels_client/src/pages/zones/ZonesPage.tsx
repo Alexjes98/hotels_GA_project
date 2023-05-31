@@ -7,7 +7,13 @@ import { setSelectedZone } from '../../redux/features/selectedZone';
 
 import assets from '../../assets'
 import ZoneImgDTO from '../../dto/zones/ZoneDTO';
-const ZonesPage = () => {
+
+
+type ZonePageProps = {
+  destiny: string,
+}
+
+const ZonesPage = (props: ZonePageProps) => {
   const itemData: ZoneImgDTO[] = assets.images.zones
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('xl'));
@@ -25,7 +31,7 @@ const ZonesPage = () => {
       <h3>Select your destination</h3>
       <ImageList sx={{ width: 'auto' }} cols={cols} rowHeight={300}>
         {itemData.map((item,index) => (
-          <Link key={index} to={'/recommendation/' + item.link}  onClick={() => handleClick(item.name)} >
+          <Link key={index} to={`/${props.destiny}/` + item.link}  onClick={() => handleClick(item.name)} >
             <ImageListItem key={item.link+item.name}>
               <Image src={item.src}></Image>
               <ImageListItemBar title={item.name ?? ''}></ImageListItemBar>

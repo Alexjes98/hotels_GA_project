@@ -2,6 +2,7 @@ import { AppBar, Toolbar, Typography } from "@mui/material"
 
 import sizeConfigs from "../../configs/sizeConfigs"
 import colorConfigs from "../../configs/colorConfigs"
+import { Link } from "react-router-dom"
 
 type Props = {
   screenSize: string,
@@ -19,11 +20,20 @@ const Topbar = (props: Props) => {
         color: colorConfigs.topbar.color,
       }}
     >
-      <Toolbar>
+      <Toolbar sx={{alignContent: "space-between"}}>
+        <Link to={"/"}>
+          <Typography variant="h6">
+            Hotel Recommendation
+          </Typography>
+        </Link>
+        <Link to={"/admin_dashboard"}>
         <Typography variant="h6">
-          Hotel Recommendation
+          Admin
         </Typography>
+        </Link>
+
       </Toolbar>
+
     </AppBar>
   )
 }
