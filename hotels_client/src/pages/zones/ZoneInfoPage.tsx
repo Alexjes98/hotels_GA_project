@@ -1,27 +1,34 @@
 import { Fragment, useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
-import { RootState } from "../../redux/store"
 import { useSelector } from "react-redux"
+import { Button} from "@mui/material"
+import { Add } from "@mui/icons-material"
+
+import { RootState } from "../../redux/store"
 
 import { getZoneContent } from "../../api/hotels.api"
-
-import LoadingSpinner from "../../components/common/LoadingSpinner"
 import HotelDTO from "../../dto/hotels/HotelDTO"
-import { Button, Card, CardActionArea, CardActions, Grid } from "@mui/material"
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import { KeyboardArrowDown } from "@mui/icons-material"
-import { Add } from "@mui/icons-material"
-import StarsRating from "../../components/hotel/StarsRating"
+import { getEmptyHotel } from "../../utils/empty_objects"
+import LoadingSpinner from "../../components/common/LoadingSpinner"
+import HotelAdminForm from "../../components/hotel_admin_form/HotelAdminForm"
 
 const ZoneInfoPage = () => {
   const zone_id = useParams().zoneId
 
+  const emptyHotel = getEmptyHotel()
+
   const [zoneInfo, setZoneInfo] = useState()
   const [loading, setLoading] = useState(true)
   const [hotels, setHotels] = useState<HotelDTO[]>([])
+
+  const [addHotel, setAddHotel] = useState(false)
+
   const selectedZoneName = useSelector((state: RootState) => state.selectedZone.selectedZoneName);
 
+  const handleAddHotel = () => {
+    setAddHotel(!addHotel)
+  }
+  
   useEffect(() => {
     { console.log(zone_id) }
     fetchData()
@@ -41,37 +48,15 @@ const ZoneInfoPage = () => {
   return (
     <Fragment>
       <h2>Zone {selectedZoneName} Info Page</h2>
-      <Button variant="outlined" startIcon={<Add />}>
+      <Button variant="outlined" onClick={handleAddHotel} startIcon={<Add />}>
         Add hotel
       </Button>
+      {addHotel && <HotelAdminForm hotel={emptyHotel}/>}
       <LoadingSpinner show={loading} ></LoadingSpinner>
       {zoneInfo && <Fragment>
         {
           hotels.map((hotel, index) => (
-            <Card key={index} sx={{ padding: 5, marginY: 5 }}>
-              <CardActionArea>
-                <Grid container alignContent='center' rowSpacing={5}>
-                  <Grid id='name' item xs={6}>
-                    <h2>{hotel.name}</h2>
-                  </Grid>
-                  <Grid id='stars' item xs={6}>
-                    <StarsRating rating={hotel.hotel_stars} />
-                  </Grid>
-                </Grid>
-                <div>{hotel.geolocation}</div>
-              </CardActionArea>
-              <CardActions>
-                <Button variant="outlined" startIcon={<EditIcon />}>
-                  Edit
-                </Button>
-                <Button variant="outlined" startIcon={<DeleteIcon />}>
-                  Delete
-                </Button>
-              </CardActions>
-              <Grid container justifyContent="center">
-                <KeyboardArrowDown/>
-              </Grid>
-            </Card>
+            <HotelAdminForm key={index} hotel={hotel}/>
           ))}
       </Fragment>
       }
