@@ -43,7 +43,7 @@ def hotel_request(request):
     return JsonResponse({"Not Found": []})
 
 def fix(request):
-    zone_id = DEFAULT_ZONE_ID
+    zone_id = request.GET.get('zone_id') if request.GET.get('zone_id') is not None else DEFAULT_ZONE_ID
     try:
         db = app.firestore().collection("hotels").document(zone_id)
         doc = db.get()
