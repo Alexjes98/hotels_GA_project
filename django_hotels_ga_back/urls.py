@@ -24,4 +24,9 @@ urlpatterns = [
     path('state/',views.test),
     path('recommendation/',views.get_recommendation),
     path('zone/',views.get_zone_content),
+    path('zone/add/',views.add_zone),
+    path('zone/modify/',views.modify_zone),
+    path('zone/delete/',views.delete_zone),
+    path('hotel/',views.hotel_request),
+    path('fix/',views.fix)
 ]
