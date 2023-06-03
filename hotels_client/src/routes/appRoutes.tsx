@@ -49,7 +49,7 @@ const appRoutes: RouteType[] = [
     element: <ZonesPage destiny="selected_zone" />,
     state: "admin_zones",
     sidebarProps: {
-      displayText: "Available Zones",
+      displayText: "Admin Available Zones",
       icon: <MapIcon />
     },
   },

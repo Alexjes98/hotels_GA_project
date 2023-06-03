@@ -1,4 +1,4 @@
-import { Button, Card, CardActionArea, CardActions, CardContent, Grid, Input } from '@mui/material'
+import { Button, Card, CardActionArea, CardActions, CardContent, Checkbox, Grid, Input, TextField } from '@mui/material'
 import { Fragment, useState } from 'react'
 import StarsRating from '../hotel/StarsRating'
 import OpenInFullIcon from '@mui/icons-material/OpenInFull'
@@ -19,7 +19,7 @@ const HotelAdminForm = (props: Props) => {
 
     const handleEditClick = () => {
         setEditMode(!editMode)
-        setExpanded(!expanded)
+        if(!editMode) setExpanded(true)
     }
 
     const handleExpandClick = () => {
@@ -35,55 +35,94 @@ const HotelAdminForm = (props: Props) => {
     const handleDelete = () => {
         setSending(true)
     }
-
+    //TODO Optimize this view
     return (
         <Fragment>
             <form action="PUT" onSubmit={handleSubmit}>
                 <Card sx={{ padding: 0, marginY: 5 }}>
                     <CardContent>
-                        <Grid container alignContent="space-between" justifyContent="stretch">
-                            <Grid id='name' item xs={6}>
-                                {editMode ? <input type='text' defaultValue={hotel.name}></input> : <h2>{hotel.name}</h2>}
+                        <Grid container>
+                            <Grid id='name' item xs={true}>
+                                {editMode ? <TextField sx={{ width: "100%" }} type='text' defaultValue={hotel.name}></TextField > : <h2>{hotel.name}</h2>}
                             </Grid>
                             <Grid id='stars' item xs={6}>
-                                {editMode ? <input type="number" defaultValue={hotel.hotel_stars}></input> : <StarsRating rating={hotel.hotel_stars} />}
+                                {editMode ? <TextField sx={{ width: "100%" }} type="number" defaultValue={hotel.hotel_stars}></TextField > : <StarsRating rating={hotel.hotel_stars} />}
                             </Grid>
                         </Grid>
-                        <Grid container columnSpacing={2}>
+                        <Grid container>
                             <Grid item xs={true}>
-                                {editMode ? <input type='number' defaultValue={hotel.global_score}></input> : <div>Score: {hotel.global_score}</div>}
+                                {editMode ? <TextField sx={{ width: "100%" }} type='number' defaultValue={hotel.global_score}></TextField> : <div>Score: {hotel.global_score}</div>}
                             </Grid>
                             <Grid item xs={true}>
-                                {editMode ? <input type='number' defaultValue={hotel.price}></input> : <div>Price: {hotel.price}$</div>}
+                                {editMode ? <TextField sx={{ width: "100%" }} type='number' defaultValue={hotel.price}></TextField> : <div>Price: {hotel.price}$</div>}
                             </Grid>
                             <Grid item xs={true}>
-                                {editMode ? <input type='text' defaultValue={hotel.category}></input> : <div>Category: {hotel.category}</div>}
+                                {editMode ? <TextField sx={{ width: "100%" }} type='text' defaultValue={hotel.category}></TextField> : <div>Category: {hotel.category}</div>}
                             </Grid>
                             <Grid item xs={true}>
-                                {editMode ? <input type='text' defaultValue={hotel.service_type}></input> : <div>Type: {hotel.service_type}</div>}
+                                {editMode ? <TextField sx={{ width: "100%" }} type='text' defaultValue={hotel.service_type}></TextField> : <div>Type: {hotel.service_type}</div>}
                             </Grid>
                         </Grid>
-                        {editMode ? <input type='text' defaultValue={hotel.geolocation}></input> : <h4>Geolocation Coordinates: {hotel.geolocation}</h4>}
+                        {editMode ? <TextField sx={{ width: "100%" }} type='text' defaultValue={hotel.geolocation}></TextField> : <h4>Geolocation Coordinates: {hotel.geolocation}</h4>}
                         {expanded && <Fragment>
                             <h4>Benefits</h4>
-                            {editMode ? <input type='checkbox' defaultChecked={hotel.accept_cash}></input> : <p>Accept Cash: {hotel.accept_cash == true ? 'Si' : 'No'}</p>}
-                            {editMode ? <input type='checkbox' defaultChecked={hotel.accept_pay_cards}></input> : <p>Accept Paycards: {hotel.accept_pay_cards == true ? 'Si' : 'No'}</p>}
-                            {editMode ? <input type='checkbox' defaultChecked={hotel.english}></input> : <p>English: {hotel.english == true ? 'Si' : 'No'}</p>}
-                            {editMode ? <input type='checkbox' defaultChecked={hotel.includes_breakfast}></input> : <p>Includes Breakfast: {hotel.includes_breakfast == true ? 'Si' : 'No'}</p>}
-                            {editMode ? <input type='checkbox' defaultChecked={hotel.security_cameras}></input> : <p>Security Cameras: {hotel.security_cameras == true ? 'Si' : 'No'}</p>}
-                            {editMode ? <input type='checkbox' defaultChecked={hotel.sustainable_trip}></input> : <p>Sustainable Trip: {hotel.sustainable_trip == true ? 'Si' : 'No'}</p>}
+                            <Grid container>
+                                <Grid item xs={true}>
+                                    {editMode ? <Checkbox defaultChecked={hotel.accept_cash}></Checkbox > : <div>Accept Cash:<br/>{hotel.accept_cash ? 'Si' : 'No'}</div>}
+                                </Grid>
+                                <Grid item xs={true}>
+                                    {editMode ? <Checkbox defaultChecked={hotel.accept_pay_cards}></Checkbox > : <div>Accept Paycards:<br/>{hotel.accept_pay_cards ? 'Si' : 'No'}</div>}
+                                </Grid>
+                                <Grid item xs={true}>
+                                    {editMode ? <Checkbox defaultChecked={hotel.english}></Checkbox > : <div>English:<br/>{hotel.english ? 'Si' : 'No'}</div>}
+                                </Grid>
+                                <Grid item xs={true}>
+                                    {editMode ? <Checkbox defaultChecked={hotel.includes_breakfast}></Checkbox > : <div>Includes Breakfast:<br />{hotel.includes_breakfast ? 'Si' : 'No'}</div>}
+                                </Grid>
+                                <Grid item xs={true}>
+                                    {editMode ? <Checkbox defaultChecked={hotel.security_cameras}></Checkbox > : <div>Security Cameras:<br/>{hotel.security_cameras ? 'Si' : 'No'}</div>}
+                                </Grid>
+                                <Grid item xs={true}>
+                                    {editMode ? <Checkbox defaultChecked={hotel.sustainable_trip}></Checkbox > : <div>Sustainable Trip:<br/>{hotel.sustainable_trip ? 'Si' : 'No'}</div>}
+                                </Grid>
+                            </Grid>
                             <h4>Scores</h4>
-                            {editMode ? <input type='number' defaultValue={hotel.confort_score}></input> : <p>Confort: {hotel.confort_score}</p>}
-                            {editMode ? <input type='number' defaultValue={hotel.free_wifi_score}></input> : <p>Free WiFi: {hotel.free_wifi_score}</p>}
-                            {editMode ? <input type='number' defaultValue={hotel.instalations_score}></input> : <p>Instalations: {hotel.instalations_score}</p>}
-                            {editMode ? <input type='number' defaultValue={hotel.personal_score}></input> : <p>Personal: {hotel.personal_score}</p>}
-                            {editMode ? <input type='number' defaultValue={hotel.cleanliness_score}></input> : <p>Cleanness: {hotel.cleanliness_score}</p>}
-                            {editMode ? <input type='number' defaultValue={hotel.location_score}></input> : <p>Location: {hotel.location_score}</p>}
-                            {editMode ? <input type='number' defaultValue={hotel.price_quality_score}></input> : <p>Price/Quality: {hotel.price_quality_score}</p>}
+                            <Grid container>
+                                <Grid item xs={true}>
+                                    {editMode ? <TextField sx={{ width: "100%" }} type='number' label="Confort" defaultValue={hotel.confort_score}></TextField> : <div>Confort:<br/>{hotel.confort_score}</div>}
+                                </Grid>
+                                <Grid item xs={true}>
+                                    {editMode ? <TextField sx={{ width: "100%" }} type='number' label="Free Wi-Fi" defaultValue={hotel.free_wifi_score}></TextField> : <div>Free WiFi:<br/>{hotel.free_wifi_score}</div>}
+
+                                </Grid>
+                                <Grid item xs={true}>
+                                    {editMode ? <TextField sx={{ width: "100%" }} type='number' label="Instalations" defaultValue={hotel.instalations_score}></TextField> : <div>Instalations:<br/>{hotel.instalations_score}</div>}
+                                </Grid>
+                                <Grid item xs={true}>
+                                    {editMode ? <TextField sx={{ width: "100%" }} type='number' label="Personal" defaultValue={hotel.personal_score}></TextField> : <div>Personal:<br/>{hotel.personal_score}</div>}
+                                </Grid>
+                                <Grid item xs={true}>
+                                    {editMode ? <TextField sx={{ width: "100%" }} type='number' label="Cleanliness" defaultValue={hotel.cleanliness_score}></TextField> : <div>Cleanness:<br/>{hotel.cleanliness_score}</div>}
+                                </Grid>
+                                <Grid item xs={true}>
+                                    {editMode ? <TextField sx={{ width: "100%" }} type='number' label="Location" defaultValue={hotel.location_score}></TextField> : <div>Location:<br/>{hotel.location_score}</div>}
+                                </Grid>
+                                <Grid item xs={true}>
+                                    {editMode ? <TextField sx={{ width: "100%" }} type='number' label="Price/Quality" defaultValue={hotel.price_quality_score}></TextField> : <div>Price/Quality:<br/>{hotel.price_quality_score}</div>}
+                                </Grid>
+                            </Grid>
                             <h4>Distances</h4>
-                            {editMode ? <input type='number' defaultValue={hotel.distance_to_beach}></input> : <p>To Beach: {hotel.distance_to_beach}</p>}
-                            {editMode ? <input type='number' defaultValue={hotel.distance_to_historical_center}></input> : <p>To Historical Center: {hotel.distance_to_historical_center}</p>}
-                            {editMode ? <input type='number' defaultValue={hotel.distance_to_port_and_tourism_police_point}></input> : <p>To Port Tourism Police: {hotel.distance_to_port_and_tourism_police_point}</p>}
+                            <Grid container>
+                                <Grid item xs={true}>
+                                    {editMode ? <TextField sx={{ width: "100%" }} type='number' defaultValue={hotel.distance_to_beach}></TextField> : <p>To Beach: {hotel.distance_to_beach}</p>}
+                                </Grid>
+                                <Grid item xs={true}>
+                                    {editMode ? <TextField sx={{ width: "100%" }} type='number' defaultValue={hotel.distance_to_historical_center}></TextField> : <p>To Historical Center: {hotel.distance_to_historical_center}</p>}
+                                </Grid>
+                                <Grid item xs={true}>
+                                    {editMode ? <TextField sx={{ width: "100%" }} type='number' defaultValue={hotel.distance_to_port_and_tourism_police_point}></TextField> : <p>To Port Tourism Police: {hotel.distance_to_port_and_tourism_police_point}</p>}
+                                </Grid>
+                            </Grid>
                         </Fragment>
                         }
                     </CardContent>
