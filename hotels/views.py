@@ -84,10 +84,10 @@ def get_hotel(request):
         return JsonResponse({"Get Error": []})
     return JsonResponse({"Hotel not found": {}})
 
-def add_hotel(request):
-    zone_id = request.GET.get('zone_id') if request.GET.get('zone_id') is not None else "zone_cartagena"
+def add_hotel(request):    
     try:
         data = json.loads(request.body)
+        zone_id = data['zone_id'] if data['zone_id'] is not None else "zone_bogota"
         db = app.firestore().collection("hotels").document(zone_id)
         doc = db.get()
         hotels = doc['hotels']
@@ -101,9 +101,9 @@ def add_hotel(request):
         return JsonResponse({"Add Error": []})
 
 def modify_hotel(request):
-    zone_id = request.GET.get('zone_id') if request.GET.get('zone_id') is not None else DEFAULT_ZONE_ID
     try:
         data = json.loads(request.body)
+        zone_id = data['zone_id'] if data['zone_id'] is not None else "zone_bogota"
         db = app.firestore().collection("hotels").document(zone_id)
         doc = db.get()
         hotels = doc['hotels']
@@ -120,7 +120,7 @@ def modify_hotel(request):
         return JsonResponse({"Error": []})
 
 def delete_hotel(request):
-    zone_id = request.GET.get('zone_id') if request.GET.get('zone_id') is not None else DEFAULT_ZONE_ID
+    zone_id = request.GET.get('zone_id') if request.GET.get('zone_id') is not None else "zone_bogota"
     hotel_id = request.GET.get('hotel_id')
     try:
         db = app.firestore().collection("hotels").document(zone_id)

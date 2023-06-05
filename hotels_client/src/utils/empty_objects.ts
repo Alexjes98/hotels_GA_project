@@ -14,6 +14,7 @@ export function getEmptyHotel(): HotelDTO {
         free_wifi_score: "",
         geolocation: "",
         global_score: "",
+        id: "",
         hotel_stars: "",
         includes_breakfast: false,
         instalations_score: "",

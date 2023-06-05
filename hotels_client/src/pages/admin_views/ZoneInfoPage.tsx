@@ -13,7 +13,7 @@ import LoadingSpinner from "../../components/common/LoadingSpinner"
 import HotelAdminForm from "../../components/hotel_admin_form/HotelAdminForm"
 
 const ZoneInfoPage = () => {
-  const zone_id = useParams().zoneId
+  const zone_id = useParams().zoneId ?? ""
 
   const emptyHotel = getEmptyHotel()
 
@@ -51,12 +51,12 @@ const ZoneInfoPage = () => {
       <Button variant="outlined" onClick={handleAddHotel} startIcon={<Add />}>
         Add hotel
       </Button>
-      {addHotel && <HotelAdminForm hotel={emptyHotel}/>}
+      {addHotel && <HotelAdminForm hotel={emptyHotel} zone_id={zone_id} new_hotel={true}/>}
       <LoadingSpinner show={loading} ></LoadingSpinner>
       {zoneInfo && <Fragment>
         {
-          hotels.map((hotel, index) => (
-            <HotelAdminForm key={index} hotel={hotel}/>
+          hotels.map((hotel) => (
+            <HotelAdminForm key={hotel.id} hotel={hotel} zone_id={zone_id} new_hotel={false}/>
           ))}
       </Fragment>
       }

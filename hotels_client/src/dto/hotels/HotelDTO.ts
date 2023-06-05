@@ -13,6 +13,7 @@ export default interface HotelDTO {
     geolocation: string,
     global_score: string,
     hotel_stars: string,
+    id: string,
     includes_breakfast: boolean,
     instalations_score: string,
     location_score: string,
