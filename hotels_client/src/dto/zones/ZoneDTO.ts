@@ -3,3 +3,8 @@ export default interface ZoneImgDTO {
     link: string;
     name: string;
 }
+
+export default interface ZoneDTO {
+    doc_id: string;
+    zone_id: string;
+}

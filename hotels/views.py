@@ -30,6 +30,19 @@ DEFAULT_ZONE_ID = "zone_cartagena"
 
 def test(request):
     return HttpResponse("Hello, world. You're at the polls index.")
+
+def get_zones(request):
+    try:
+        docs = app.firestore().collection("hotels").list_of_documents()
+        zones = []
+        for doc in docs:
+            db = app.firestore().collection("hotels").document(doc).get()
+            zones.append({"doc_id": doc, "name": db['zone_id']})
+        return JsonResponse({"zones": zones})    
+    except Exception:
+        traceback.print_exc() 
+        return JsonResponse({"Error": []}) 
+
 @csrf_exempt
 def hotel_request(request):
     if request.method == 'GET':
@@ -124,10 +137,12 @@ def delete_hotel(request):
     return JsonResponse({"Hotel not found": []})
 
 @csrf_exempt
-def add_zone(request):
-    zone_id = request.GET.get('zone_id') if request.GET.get('zone_id') is not None else DEFAULT_ZONE_ID
+def add_zone(request):    
     try:
-        db = app.firestore().collection("hotels").document(zone_id).set({"zone_id": zone_id, "hotels": []})
+        data = json.loads(request.body)
+        print(data)
+        zone_id = data['zone_id']
+        db = app.firestore().collection("hotels").add({"zone_id": zone_id, "hotels": []})
     except Exception:
         traceback.print_exc() 
         return JsonResponse({"Error": []})
@@ -135,17 +150,17 @@ def add_zone(request):
 
 @csrf_exempt
 def modify_zone(request):
-    zone_id = request.GET.get('zone_id') if request.GET.get('zone_id') is not None else DEFAULT_ZONE_ID
+    zone_id = request.GET.get('zone_id') if request.GET.get('zone_id') is not None else "zone_bogota"
     try:
-        db = app.firestore().collection("hotels").document(zone_id).update({"zone_id": zone_id, "hotels": []})
+        db = app.firestore().collection("hotels").document(zone_id).update({"zone_id": zone_id})
+        return JsonResponse({"Zone modified": db})
     except Exception:
         traceback.print_exc() 
         return JsonResponse({"Error": []})
-    return JsonResponse({"Zone modified": db})
-
+    
 @csrf_exempt
 def delete_zone(request):
-    zone_id = request.GET.get('zone_id') if request.GET.get('zone_id') is not None else DEFAULT_ZONE_ID
+    zone_id = request.GET.get('zone_id') if request.GET.get('zone_id') is not None else "zone_new"
     try:
         db = app.firestore().collection("hotels").document(zone_id).delete()
     except Exception:

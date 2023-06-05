@@ -4,9 +4,13 @@ import HomePage from "../pages/home/HomePage";
 import ZonesPage from "../pages/zones/ZonesPage";
 
 import MapIcon from '@mui/icons-material/Map';
-import ZoneInfoPage from "../pages/zones/ZoneInfoPage";
+import BedIcon from '@mui/icons-material/Bed';
+import ApartmentIcon from '@mui/icons-material/Apartment';
+
+import ZoneInfoPage from "../pages/admin_views/ZoneInfoPage";
 import RecommendationFormPage from "../pages/recommendation_form/RecommendationFormPage";
 import AdminDashboard from "../pages/admin_views/AdminDashboardPage";
+import AdminZonesPage from "../pages/admin_views/AdminZonesPage";
 
 const appRoutes: RouteType[] = [
   {
@@ -26,31 +30,30 @@ const appRoutes: RouteType[] = [
     state: "dashboard",
   },
   {
-    path: "/zones",
+    path: "/zones_link",
     element: <ZonesPage destiny="recommendation" />,
     state: "zones",
     sidebarProps: {
       displayText: "Available Zones",
       icon: <MapIcon />
     },
-    child: [
-      {
-        path: "/zones/:zoneId",
-        element: <ZoneInfoPage />,
-        state: "zones.default",
-        sidebarProps: {
-          displayText: "Default"
-        },
-      },
-    ]
   },
   {
-    path: "/admin_zones",
+    path: "/admin_hotels",
     element: <ZonesPage destiny="selected_zone" />,
     state: "admin_zones",
     sidebarProps: {
+      displayText: "Admin Hotels",
+      icon: <BedIcon />
+    },
+  },
+  {
+    path: "/admin_zones",
+    element: <AdminZonesPage />,
+    state: "admin_zones",
+    sidebarProps: {
       displayText: "Admin Available Zones",
-      icon: <MapIcon />
+      icon: <ApartmentIcon />
     },
   },
   {

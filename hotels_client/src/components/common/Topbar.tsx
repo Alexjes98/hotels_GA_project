@@ -1,4 +1,4 @@
-import { AppBar, Toolbar, Typography } from "@mui/material"
+import { AppBar, Container, Toolbar, Typography } from "@mui/material"
 
 import sizeConfigs from "../../configs/sizeConfigs"
 import colorConfigs from "../../configs/colorConfigs"
@@ -18,22 +18,37 @@ const Topbar = (props: Props) => {
         boxShadow: "unset",
         backgroundColor: colorConfigs.topbar.background,
         color: colorConfigs.topbar.color,
-      }}
-    >
-      <Toolbar sx={{alignContent: "space-between"}}>
-        <Link to={"/"}>
-          <Typography variant="h6">
-            Hotel Recommendation
+      }}>
+      <Container maxWidth="xl">
+        <Toolbar disableGutters>
+          <Typography 
+            variant="h6"
+            noWrap
+            component="a"
+            href="/"
+            sx={{
+              color: colorConfigs.topbar.color,
+              textDecoration: 'none',
+              fontFamily: 'monospace',
+              mr: 2,
+            }}>
+            Home
           </Typography>
-        </Link>
-        <Link to={"/admin_dashboard"}>
-        <Typography variant="h6">
-          Admin
-        </Typography>
-        </Link>
-
-      </Toolbar>
-
+          <Typography 
+          variant="h6" 
+          noWrap 
+          component="a" 
+          href="/admin_dashboard"
+          sx={{
+            color: colorConfigs.topbar.color,
+            textDecoration: 'none',
+            fontFamily: 'monospace',
+            mr: 2,
+          }}>
+            Admin
+          </Typography>
+        </Toolbar>
+      </Container>
     </AppBar>
   )
 }

@@ -14,7 +14,7 @@ const HomePage = () => {
           <div style={{ margin: '20px', textAlign: 'start', justifyContent: 'center' }}>
             <h2>An online tool to get better trip recommendation</h2>
             <p>based on user data and user preferences you can get a more precise recommendation</p>
-            <Button component={Link} to={'/zones'} variant="contained">
+            <Button component={Link} to={'/zones_link'} variant="contained">
               Get Started
             </Button>
           </div>

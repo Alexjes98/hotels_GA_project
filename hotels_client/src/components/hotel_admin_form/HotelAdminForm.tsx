@@ -1,4 +1,4 @@
-import { Button, Card, CardActionArea, CardActions, CardContent, Checkbox, Grid, Input, TextField } from '@mui/material'
+import { Button, Card, CardActionArea, CardActions, CardContent, Checkbox, Grid, TextField } from '@mui/material'
 import { Fragment, useState } from 'react'
 import StarsRating from '../hotel/StarsRating'
 import OpenInFullIcon from '@mui/icons-material/OpenInFull'
@@ -38,7 +38,7 @@ const HotelAdminForm = (props: Props) => {
     //TODO Optimize this view
     return (
         <Fragment>
-            <form action="PUT" onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit}>
                 <Card sx={{ padding: 0, marginY: 5 }}>
                     <CardContent>
                         <Grid container>

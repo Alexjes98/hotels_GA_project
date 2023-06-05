@@ -23,6 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('state/',views.test),
     path('recommendation/',views.get_recommendation),
+    path('zones/',views.get_zones),
     path('zone/',views.get_zone_content),
     path('zone/add/',views.add_zone),
     path('zone/modify/',views.modify_zone),
