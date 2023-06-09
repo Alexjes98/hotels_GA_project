@@ -29,13 +29,45 @@ const HotelAdminForm = (props: Props) => {
     const handleExpandClick = () => {
         setExpanded(!expanded)
     }
-    
+
+    const generateHotelDTO = (formData: FormData): HotelDTO => {
+        const formDataArray = Array.from(formData.entries());
+        const formDataObject = Object.fromEntries(formDataArray);
+        const hotelDTO: HotelDTO = {
+            id: hotel.id,
+            accept_cash: Boolean(formDataObject.accept_cash),
+            accept_pay_cards: Boolean(formDataObject.accept_pay_cards),
+            category: String(formDataObject.category),
+            cleanliness_score: String(formDataObject.cleanliness_score),
+            confort_score: String(formDataObject.confort_score),
+            distance_to_beach: String(formDataObject.distance_to_beach),
+            distance_to_historical_center: String(formDataObject.distance_to_historical_center),
+            distance_to_port_and_tourism_police_point: String(formDataObject.distance_to_port_and_tourism_police_point),
+            english: Boolean(formDataObject.english),
+            free_wifi_score: String(formDataObject.free_wifi_score),
+            geolocation: String(formDataObject.geolocation),
+            global_score: String(formDataObject.global_score),
+            hotel_stars: String(formDataObject.hotel_stars),
+            includes_breakfast: Boolean(formDataObject.includes_breakfast),
+            instalations_score: String(formDataObject.instalations_score),
+            location_score: String(formDataObject.location_score),
+            name: String(formDataObject.name),
+            personal_score: String(formDataObject.personal_score),
+            price: String(formDataObject.price),
+            price_quality_score: String(formDataObject.price_quality_score),
+            security_cameras: Boolean(formDataObject.security_cameras),
+            service_type: String(formDataObject.service_type),
+            sustainable_trip: Boolean(formDataObject.sustainable_trip),
+        }
+        return hotelDTO
+    }
+
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         setSending(true)
         const formData = new FormData(event.currentTarget);
-        const formDataArray = Array.from(formData.entries());
-        const formDataObject = {...Object.fromEntries(formDataArray), id: hotel.id };
+        const formDataObject = generateHotelDTO(formData)
+
         const send = { hotel: formDataObject, zone_id: zone_id }
         if (new_hotel) {
             postHotel(send).catch(err => {
@@ -91,23 +123,23 @@ const HotelAdminForm = (props: Props) => {
                             <h4>Benefits</h4>
                             <Grid container>
                                 <Grid item xs={true}>
-                                    
-                                    {editMode ? <Checkbox name='accept_cash' value={hotel.accept_cash} defaultChecked={hotel.accept_cash}></Checkbox > : <div>Accept Cash:<br />{hotel.accept_cash ? 'Si' : 'No'}</div>}
+
+                                    {editMode ? <Checkbox name='accept_cash' value={hotel.accept_cash ? true : false} defaultChecked={hotel.accept_cash}></Checkbox > : <div>Accept Cash:<br />{hotel.accept_cash ? 'Si' : 'No'}</div>}
                                 </Grid>
                                 <Grid item xs={true}>
-                                    {editMode ? <Checkbox name='accept_pay_cards' value={hotel.accept_pay_cards} defaultChecked={hotel.accept_pay_cards}></Checkbox > : <div>Accept Paycards:<br />{hotel.accept_pay_cards ? 'Si' : 'No'}</div>}
+                                    {editMode ? <Checkbox name='accept_pay_cards' value={hotel.accept_pay_cards ? true : false} defaultChecked={hotel.accept_pay_cards}></Checkbox > : <div>Accept Paycards:<br />{hotel.accept_pay_cards ? 'Si' : 'No'}</div>}
                                 </Grid>
                                 <Grid item xs={true}>
-                                    {editMode ? <Checkbox name='english' value={hotel.english} defaultChecked={hotel.english}></Checkbox > : <div>English:<br />{hotel.english ? 'Si' : 'No'}</div>}
+                                    {editMode ? <Checkbox name='english' value={hotel.english ? true : false} defaultChecked={hotel.english}></Checkbox > : <div>English:<br />{hotel.english ? 'Si' : 'No'}</div>}
                                 </Grid>
                                 <Grid item xs={true}>
-                                    {editMode ? <Checkbox name='includes_breakfast' value={hotel.includes_breakfast} defaultChecked={hotel.includes_breakfast}></Checkbox > : <div>Includes Breakfast:<br />{hotel.includes_breakfast ? 'Si' : 'No'}</div>}
+                                    {editMode ? <Checkbox name='includes_breakfast' value={hotel.includes_breakfast ? true : false} defaultChecked={hotel.includes_breakfast}></Checkbox > : <div>Includes Breakfast:<br />{hotel.includes_breakfast ? 'Si' : 'No'}</div>}
                                 </Grid>
                                 <Grid item xs={true}>
-                                    {editMode ? <Checkbox name='security_cameras' value={hotel.security_cameras} defaultChecked={hotel.security_cameras}></Checkbox > : <div>Security Cameras:<br />{hotel.security_cameras ? 'Si' : 'No'}</div>}
+                                    {editMode ? <Checkbox name='security_cameras' value={hotel.security_cameras ? true : false} defaultChecked={hotel.security_cameras}></Checkbox > : <div>Security Cameras:<br />{hotel.security_cameras ? 'Si' : 'No'}</div>}
                                 </Grid>
                                 <Grid item xs={true}>
-                                    {editMode ? <Checkbox name='sustainable_trip' value={hotel.sustainable_trip} defaultChecked={hotel.sustainable_trip}></Checkbox > : <div>Sustainable Trip:<br />{hotel.sustainable_trip ? 'Si' : 'No'}</div>}
+                                    {editMode ? <Checkbox name='sustainable_trip' value={hotel.sustainable_trip ? true : false} defaultChecked={hotel.sustainable_trip}></Checkbox > : <div>Sustainable Trip:<br />{hotel.sustainable_trip ? 'Si' : 'No'}</div>}
                                 </Grid>
                             </Grid>
                             <h4>Scores</h4>
@@ -179,6 +211,6 @@ const HotelAdminForm = (props: Props) => {
             </form>
         </Fragment>
     )
-}
 
+}
 export default HotelAdminForm
