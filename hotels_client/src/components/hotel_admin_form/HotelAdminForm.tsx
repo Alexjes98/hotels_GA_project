@@ -92,22 +92,22 @@ const HotelAdminForm = (props: Props) => {
                             <Grid container>
                                 <Grid item xs={true}>
                                     
-                                    {editMode ? <Checkbox name='accept_cash' defaultChecked={hotel.accept_cash}></Checkbox > : <div>Accept Cash:<br />{hotel.accept_cash ? 'Si' : 'No'}</div>}
+                                    {editMode ? <Checkbox name='accept_cash' value={hotel.accept_cash} defaultChecked={hotel.accept_cash}></Checkbox > : <div>Accept Cash:<br />{hotel.accept_cash ? 'Si' : 'No'}</div>}
                                 </Grid>
                                 <Grid item xs={true}>
-                                    {editMode ? <Checkbox name='accept_pay_cards' defaultChecked={hotel.accept_pay_cards}></Checkbox > : <div>Accept Paycards:<br />{hotel.accept_pay_cards ? 'Si' : 'No'}</div>}
+                                    {editMode ? <Checkbox name='accept_pay_cards' value={hotel.accept_pay_cards} defaultChecked={hotel.accept_pay_cards}></Checkbox > : <div>Accept Paycards:<br />{hotel.accept_pay_cards ? 'Si' : 'No'}</div>}
                                 </Grid>
                                 <Grid item xs={true}>
-                                    {editMode ? <Checkbox name='english' defaultChecked={hotel.english}></Checkbox > : <div>English:<br />{hotel.english ? 'Si' : 'No'}</div>}
+                                    {editMode ? <Checkbox name='english' value={hotel.english} defaultChecked={hotel.english}></Checkbox > : <div>English:<br />{hotel.english ? 'Si' : 'No'}</div>}
                                 </Grid>
                                 <Grid item xs={true}>
-                                    {editMode ? <Checkbox name='includes_breakfast' defaultChecked={hotel.includes_breakfast}></Checkbox > : <div>Includes Breakfast:<br />{hotel.includes_breakfast ? 'Si' : 'No'}</div>}
+                                    {editMode ? <Checkbox name='includes_breakfast' value={hotel.includes_breakfast} defaultChecked={hotel.includes_breakfast}></Checkbox > : <div>Includes Breakfast:<br />{hotel.includes_breakfast ? 'Si' : 'No'}</div>}
                                 </Grid>
                                 <Grid item xs={true}>
-                                    {editMode ? <Checkbox name='security_cameras' defaultChecked={hotel.security_cameras}></Checkbox > : <div>Security Cameras:<br />{hotel.security_cameras ? 'Si' : 'No'}</div>}
+                                    {editMode ? <Checkbox name='security_cameras' value={hotel.security_cameras} defaultChecked={hotel.security_cameras}></Checkbox > : <div>Security Cameras:<br />{hotel.security_cameras ? 'Si' : 'No'}</div>}
                                 </Grid>
                                 <Grid item xs={true}>
-                                    {editMode ? <Checkbox name='sustainable_trip' defaultChecked={hotel.sustainable_trip}></Checkbox > : <div>Sustainable Trip:<br />{hotel.sustainable_trip ? 'Si' : 'No'}</div>}
+                                    {editMode ? <Checkbox name='sustainable_trip' value={hotel.sustainable_trip} defaultChecked={hotel.sustainable_trip}></Checkbox > : <div>Sustainable Trip:<br />{hotel.sustainable_trip ? 'Si' : 'No'}</div>}
                                 </Grid>
                             </Grid>
                             <h4>Scores</h4>

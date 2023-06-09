@@ -29,5 +29,5 @@ urlpatterns = [
     path('zone/modify/',views.modify_zone),
     path('zone/delete/',views.delete_zone),
     path('hotel/',views.hotel_request),
-    path('fix/',views.fix)
+    path('login/',views.login),
 ]

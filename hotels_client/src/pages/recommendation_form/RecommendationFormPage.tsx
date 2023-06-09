@@ -44,12 +44,12 @@ const RecommendationFormPage = () => {
     const selectedZoneName = useSelector((state: RootState) => state.selectedZone.selectedZoneName);
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault()        
+        e.preventDefault()
         if (invalidNumber(numRecommendations.toString())) return setFormError(true)
         setLoading(true)
         setDataRetrieved(false)
-        getRecommendation({...selectedBenefits,'num_recommendations': numRecommendations,'zone_id': zone_id}).then(res => {
-            if(res.status !== 200) return console.log(res)
+        getRecommendation({ ...selectedBenefits, 'num_recommendations': numRecommendations, 'zone_id': zone_id }).then(res => {
+            if (res.status !== 200) return console.log(res)
             setLoading(false)
             setHotels(sortHotels(res.data.hotels))
             setDataRetrieved(true)
@@ -71,7 +71,7 @@ const RecommendationFormPage = () => {
         setFormError(false)
         return setNumRecommendations(parseInt(e.target.value))
     }
-    
+
     const sortHotels = (hotels: HotelDTO[]) => {
         return hotels.sort((a, b) => {
             if (a.global_score > b.global_score) return -1
@@ -97,12 +97,6 @@ const RecommendationFormPage = () => {
                             error={formError}
                         >
                         </TextField>
-                        <Button
-                            sx={{ margin: '10px 0px 0px 0px' }}
-                            type='submit' variant='contained'
-                            disabled={loading}>
-                            Send
-                        </Button>
                     </Stack>
                     <Stack spacing={2} sx={{}}>
                         <h3>Preferences</h3>
@@ -127,6 +121,14 @@ const RecommendationFormPage = () => {
                                 <Checkbox onChange={handleCheckboxChange} name='accept_cash' icon={<Payments />} checkedIcon={<Payments />} />
                             </Grid>
                         </Grid>
+                    </Stack>
+                    <Stack spacing={2} mt={3}>
+                        <Button
+                            sx={{ margin: '10px 0px 0px 0px' }}
+                            type='submit' variant='contained'
+                            disabled={loading}>
+                            Send
+                        </Button>
                     </Stack>
                 </Card>
             </form>

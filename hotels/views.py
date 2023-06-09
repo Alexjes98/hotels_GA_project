@@ -31,6 +31,9 @@ DEFAULT_ZONE_ID = "zone_cartagena"
 def test(request):
     return HttpResponse("Hello, world. You're at the polls index.")
 
+def login(request):
+    return HttpResponse("Login")
+
 def get_zones(request):
     try:
         docs = app.firestore().collection("hotels").list_of_documents()

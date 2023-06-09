@@ -10,7 +10,7 @@ const generateRoute = (routes: RouteType[]): ReactNode => {
   const isUserAllowed = (routeRoles: any) => {
     // Implementa tu lógica para verificar si el usuario tiene los roles necesarios
     // Puedes obtener esta información de tu sistema de autenticación o de un estado global
-    const currentUserRoles = ["User"]; // Roles actuales del usuario (simulados aquí)
+    const currentUserRoles = ["Admin"]; // Roles actuales del usuario (simulados aquí)
     return routeRoles.some((role: any) => currentUserRoles.includes(role));
   };
 
