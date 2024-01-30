@@ -6,7 +6,7 @@ import { useDispatch} from 'react-redux';
 import { setSelectedZone } from '../../redux/features/selectedZone';
 
 import assets from '../../assets'
-import ZoneImgDTO from '../../dto/zones/ZoneDTO';
+import {ZoneImgDTO} from '../../dto/zones/ZoneDTO';
 
 
 type ZonePageProps = {
